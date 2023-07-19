@@ -1,0 +1,206 @@
+---
+title: "SQL desde Cero"
+author: "Stephanie Orellana"
+format:
+  revealjs:
+    theme:
+      - styles.scss
+title-slide-attributes:
+    data-background-image: "img/info.jpeg"
+    data-background-size: contain
+    data-background-position: top
+    data-background-opacity: "0.85"      
+---
+
+
+# Hoy
+
+- Responder preguntas con datos mediante SQL
+- Fácil de aprender
+- Énfasis en conceptos básicos del lenguaje y análisis de datos
+- No cubre cómo configurar bases de datos o cómo usarlas en aplicaciones de software
+
+# Qué es SQL (Structured Query Language) {.smaller}
+
+- Es un lenguaje de programación diseñado para manejar datos en bases de datos relacionales. 
+- Ha existido desde la década de los 70 y es el método más común para acceder a datos en bases de datos en la actualidad
+- SQL tiene una variedad de funciones que permiten a los usuarios leer, manipular y modificar datos.
+- Utilizado por grandes compañías para resolver problemas reales
+
+---
+
+<center><img src="img/netflix.jpeg" alt= “” width="500px" ></center>
+
+# ¿Por qué aprender SQL? {.smaller}
+
+- A pesar de que SQL es comúnmente usado por los desarrolladores de software, también es popular en el análisis de datos:
+    - Es fácil de aprender y entender
+    - Permite acceder a grandes volúmenes de datos directamente desde donde se encuentran almacenados y analizarlos sin tener que copiarlos y pegarlos en otras aplicaciones.
+    - Comparado con las hojas de cálculo, los análisis realizados en SQL son fáciles de auditar y replicar
+
+SQL es excelente para realizar los tipos de agregaciones que normalmente haríamos en una tabla dinámica de Excel (sumas, conteos, mínimos y máximos, etc.), pero en conjuntos de datos mucho más grandes y en varias tablas al mismo tiempo.
+
+---
+
+<center><img src="img/sql.jpeg" alt= “” width="500px" ></center>
+
+# Qué es una base de datos
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+- Colección de datos organizada
+- Bases de datos relacionales (SQL) v/s no relacionales (NOSQL)
+
+:::
+
+::: {.column width="30%"} 
+
+<center><img src="img/database.png" alt= “” width="500px" ></center>
+
+:::
+
+::::
+
+# Gestores de Bases de datos
+
+<center><img src="img/gestores.webp" alt= “” width="500px" ></center>
+
+[Leer más sobre gestores de bases de datos](https://www.diarlu.com/gestores-bases-datos/)
+
+# Uso de la herramienta web
+
+- Para este taller utilizaremos la herramienta web [https://sqliteonline.com/](https://sqliteonline.com/) porque nos permite empezar sin tener que instalar nada
+
+- Existen otros compiladores online de SQL que también puedes utilizar para comenzar a practicar
+
+
+# Convenciones
+
+- Palabras reservadas en mayúsculas
+- Espacios: espacios = espacios dobles = salto de línea
+- Nombres de columnas: nombres de columnas con espacios deben ir con comillas dobles `""`
+  - Pueden renombrarse al final con `AS`
+- Valor de carácter en una columna debe ir con comillas simples `‘’`
+
+[Guía de Sintaxis](https://www.sqlstyle.guide/)
+
+# Sintaxis básica: SELECT y FROM  {.smaller}
+
+```{r, echo = F}
+library(DBI)
+# Create an ephemeral in-memory RSQLite database
+con <- dbConnect(RSQLite::SQLite(), ":memory:")
+
+dbWriteTable(con, "pinguino", datos::pinguinos)
+```
+
+```{sql, connection = con, eval = T, echo = T, max.print=-1}
+#| class: output
+SELECT * FROM pinguino;
+```
+
+# Sintaxis básica: SELECT y FROM  {.smaller}
+
+```{sql, connection = con, eval = T, echo = T, max.print=-1}
+#| class: output
+SELECT especie, isla FROM pinguino;
+```
+
+# LIMIT {.smaller}
+
+```{sql, connection = con, eval = T, echo = T, max.print=-1}
+#| class: output
+SELECT * FROM pinguino
+LIMIT 10;
+```
+
+# ORDER BY {.smaller}
+
+```{sql, connection = con, eval = T, echo = T, max.print=-1}
+#| class: output
+SELECT * FROM pinguino
+ORDER BY masa_corporal_g DESC
+LIMIT 10;
+```
+
+# WHERE {.smaller}
+
+```{sql, connection = con, eval = T, echo = T, max.print=-1}
+#| class: output
+SELECT * FROM pinguino
+WHERE isla = "Biscoe";
+```
+
+# Operadores de comparación {.smaller}
+
+Operador| Símbolo
+-----|-----:
+Igual| =
+No Igual| != o <>
+Mayor que| >
+Menor que| <
+Mayor o igual que| >=
+Menor o igual que| <=
+
+
+# Aritmética
+
+- Cuando hacemos aritmética entre columnas estas se denominan “Columnas derivadas”
+- Se usan los símbolos matemáticos tradicionales
+- Se pueden usan paréntesis como en las fórmulas matemáticas 
+
+# Funciones aritméticas {.smaller}
+
+Función |	Propósito
+-----|-----:
+AVG() |	media
+COUNT() |	cuenta
+MAX() |	máximo
+MIN () |	mínimo
+VARIANCE() |	varianza
+SUM() |	suma
+
+[Más funciones aritméticas](https://desarrolloweb.com/articulos/funciones-aritmeticas-sql.html)
+
+# Operadores lógicos {.smaller}
+
+Operador | Utilidad
+-----|-----:
+LIKE | encontrar coincidencias similares
+IN | incluir una lista de valores
+BETWEEN | seleccionar filas con valores entre un rango
+IS NULL | seleccionar filas sin datos en una columna
+AND | seleccionar filas que satisfagan dos condiciones
+OR | seleccionar filas que satisfagan alguna de las dos condiciones
+NOT | seleccionar filas que no satisfagan una condicion
+
+
+# GROUP BY {.smaller}
+
+Es útil para generar resúmenes de información utilizando funciones aritméticas. Con `AS` podemos nombrar esas columnas resultantes.
+
+```{sql, connection = con, eval = T, echo = T, max.print=-1}
+#| class: output
+SELECT isla, AVG(masa_corporal_g) AS media_mc_g FROM pinguino
+GROUP BY isla;
+```
+
+# JOINS
+
+<center><img src="img/joins.jpg" alt= “” width="700px" ></center>
+
+# Enlaces de interés
+
+[Compilador On Line](https://sqliteonline.com/)
+
+[Covertir a SQL](https://tableconvert.com/excel-to-sql)
+
+[Dataset Terremotos Kaggle](https://www.kaggle.com/datasets/warcoder/earthquake-dataset)
+
+[Datasets de Cedeus](http://datos.cedeus.cl/)
+
+[Curso SQL Básico de Hola Mundo](https://youtu.be/uUdKAYl-F7g)
+
+[sqlbolt.com (En inglés)](https://sqlbolt.com/)
