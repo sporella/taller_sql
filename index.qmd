@@ -7,7 +7,7 @@ format:
       - styles.scss
 title-slide-attributes:
     data-background-image: "img/info.jpeg"
-    data-background-size: contain
+    data-background-size: "70%"
     data-background-position: top
     data-background-opacity: "0.85"      
 ---
@@ -174,7 +174,7 @@ BETWEEN | seleccionar filas con valores entre un rango
 IS NULL | seleccionar filas sin datos en una columna
 AND | seleccionar filas que satisfagan dos condiciones
 OR | seleccionar filas que satisfagan alguna de las dos condiciones
-NOT | seleccionar filas que no satisfagan una condicion
+NOT | seleccionar filas que no satisfagan una condición
 
 
 # GROUP BY {.smaller}
