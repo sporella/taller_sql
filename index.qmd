@@ -204,3 +204,5 @@ GROUP BY isla;
 [Curso SQL Básico de Hola Mundo](https://youtu.be/uUdKAYl-F7g)
 
 [sqlbolt.com (En inglés)](https://sqlbolt.com/)
+
+[Orden de Ejecución de Clausulas](https://www.sisense.com/blog/sql-query-order-of-operations/)
